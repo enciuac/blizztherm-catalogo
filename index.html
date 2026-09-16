@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var t=localStorage.getItem("bt-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+<title>Catálogo de equipos · BlizzTherm</title>
+<meta name="description" content="Catálogo técnico de equipos BlizzTherm: calefactores eléctricos, infrarrojos, de gas y gasóleo para uso industrial y profesional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1 id="hero-title"></h1>
+      <p id="hero-subtitle"></p>
+    </div>
+    <div class="hero-stats">
+      <div><span class="num" id="stat-total">–</span><span class="lbl" id="stat-total-label"></span></div>
+      <div><span class="num" id="stat-categorias">–</span><span class="lbl" id="stat-categorias-label"></span></div>
+      <div><span class="num" id="stat-fotos">–</span><span class="lbl" id="stat-fotos-label"></span></div>
+      <div><span class="num" id="stat-precios">–</span><span class="lbl" id="stat-precios-label"></span></div>
+    </div>
+  </div>
+</section>
+
+<nav class="cat-nav" id="catalogo-top">
+  <div class="wrap" id="cat-nav-list"></div>
+</nav>
+
+<main class="wrap" id="catalogo"></main>
+
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <h3 id="cta-band-title"></h3>
+      <p id="cta-band-text"></p>
+    </div>
+    <a class="btn" id="cta-band-btn-link" href="mailto:info@blizztherm.es?subject=Consulta de equipo BlizzTherm"><span id="cta-band-btn"></span></a>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="productos.js"></script>
+<script src="catalogo.js"></script>
+<script>
+  window.renderPage = renderIndex;
+  renderPage();
+</script>
+</body>
+</html>
