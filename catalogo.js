@@ -436,7 +436,7 @@ function chromeHTML(activeKey) {
 
   return `
     <div class="wrap header-bar">
-      <a class="wordmark" href="index.html"><img src="img/logo-negro.png" alt="BlizzTherm" class="logo-img logo-light"><img src="img/logo-blanco.png" alt="BlizzTherm" class="logo-img logo-dark"></a>
+      <a class="wordmark" href="index.html"><img src="img/logo-color.png" alt="BlizzTherm" class="logo-img"></a>
 
       <nav class="site-nav">${navDesktopHTML}</nav>
 
@@ -457,7 +457,7 @@ function chromeHTML(activeKey) {
     <div id="drawer-backdrop" class="drawer-backdrop"></div>
     <aside id="mobile-menu" class="mobile-menu" aria-label="${t("drawerMenu")}">
       <div class="drawer-head">
-        <img src="img/logo-negro.png" alt="BlizzTherm" class="logo-img logo-light"><img src="img/logo-blanco.png" alt="BlizzTherm" class="logo-img logo-dark">
+        <img src="img/logo-color.png" alt="BlizzTherm" class="logo-img">
         <button type="button" id="drawer-close" class="drawer-close" aria-label="Cerrar">×</button>
       </div>
       <nav class="mobile-nav">
