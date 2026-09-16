@@ -45,7 +45,7 @@ const STR = {
     casosDeUsoTitle: "Casos de uso",
     verFichaPdf: "Ver ficha técnica (PDF)",
     verManualPdf: "Ver manual de uso (PDF)",
-    comprarBlizzcool: "Comprar este equipo",
+    comprarBlizzcool: "Ver producto",
     equiposEnCatalogo: (n) => `${n} equipo${n > 1 ? "s" : ""} en catálogo`,
     breadcrumbCatalogo: "Catálogo",
     descripcionTitle: "Descripción", fichaTecnicaTitle: "Ficha técnica", aplicacionesTitle: "Aplicaciones",
@@ -104,7 +104,7 @@ const STR = {
     casosDeUsoTitle: "Use cases",
     verFichaPdf: "View datasheet (PDF)",
     verManualPdf: "View user manual (PDF)",
-    comprarBlizzcool: "Buy this unit",
+    comprarBlizzcool: "View product",
     equiposEnCatalogo: (n) => `${n} product${n > 1 ? "s" : ""} in catalog`,
     breadcrumbCatalogo: "Catalog",
     descripcionTitle: "Description", fichaTecnicaTitle: "Datasheet", aplicacionesTitle: "Applications",
@@ -202,9 +202,26 @@ function manualUrl(p) {
   return m ? "fichas/" + encodeURIComponent(m) : null;
 }
 
-/* BlizzTherm no tiene tienda online propia por ahora */
+/* URLs de producto en blizztherm.es */
+const URLS_BLIZZTHERM = {
+  "bte-50":  "https://blizztherm.es/calefactor-industrial-electrico/calentador-electrico-bte-50/",
+  "bte-90":  "https://blizztherm.es/calefactor-industrial-electrico/calefactor-electrico-bte-90/",
+  "bte-150": "https://blizztherm.es/calefactor-industrial-electrico/calefactor-electrico-bte-150/",
+  "bte-150r":"https://blizztherm.es/calefactor-industrial-electrico/calefactor-electrico-bte-150r/",
+  "bti-20":  "https://blizztherm.es/calefactor-industrial-infrarrojos/calefactor-por-infrarrojos-bti-20/",
+  "bti-45":  "https://blizztherm.es/calefactor-industrial-infrarrojos/calefactor-por-infrarrojos-bti-45/",
+  "btc-13":  "https://blizztherm.es/calefactor-industrial-infrarrojos/calefactor-por-infrarrojos-btc-13/",
+  "btc-18":  "https://blizztherm.es/calefactor-industrial-infrarrojos/calefactor-por-infrarrojos-btc-18/",
+  "btg-15":  "https://blizztherm.es/canon-de-calor-industrial/gas/canon-de-calor-a-gas-btg-15/",
+  "btg-30":  "https://blizztherm.es/canon-de-calor-industrial/gas/canon-de-calor-a-gas-btg-30/",
+  "btd-20":  "https://blizztherm.es/canon-de-calor-industrial/gasoil/canon-de-calor-gasoil-directo-btd-20/",
+  "btd-30":  "https://blizztherm.es/canon-de-calor-industrial/gasoil/canon-de-calor-gasoil-directo-btd-30/",
+  "btd-50":  "https://blizztherm.es/canon-de-calor-industrial/gasoil/canon-de-calor-gasoil-directo-btd-50/",
+  "bth-30":  "https://blizztherm.es/canon-de-calor-industrial/gasoil/canon-de-calor-gasoil-indirecto-bth-30/",
+  "bth-50":  "https://blizztherm.es/canon-de-calor-industrial/gasoil/canon-de-calor-gasoil-indirecto-bth-50/",
+};
 function urlCompraBlizzcool(p) {
-  return null;
+  return URLS_BLIZZTHERM[p.id] || null;
 }
 
 /* BlizzTherm: sin imágenes de casos de uso por ahora */
@@ -866,9 +883,7 @@ function renderProducto() {
             <span ${priceBigAttrs}></span>
           </div>
           ${selectorVariantesHTML(p)}
-          ${compraUrl ? `<a class="btn" href="${compraUrl}" target="_blank" rel="noopener">${t("comprarBlizzcool")}</a>` : ""}
-          <a class="btn btn-accent" id="btn-presupuesto" href="${mailtoPresupuesto}">${t("solicitarPresupuesto")}</a>
-          <a class="btn btn-outline" href="${CONTACTO.whatsapp}" target="_blank" rel="noopener">${t("contactoAbrirWhatsapp")}</a>
+          ${compraUrl ? `<a class="btn btn-accent" href="${compraUrl}" target="_blank" rel="noopener">${t("comprarBlizzcool")}</a>` : ""}
           ${fichaUrl ? `<a class="btn btn-outline" href="${fichaUrl}" target="_blank" rel="noopener">${t("verFichaPdf")}</a>` : ""}
           ${manuUrl ? `<a class="btn btn-outline" href="${manuUrl}" target="_blank" rel="noopener">${t("verManualPdf")}</a>` : ""}
           <a class="btn btn-outline" href="index.html#${p.categoria}">${t("verMasEquipos")}</a>
@@ -878,7 +893,7 @@ function renderProducto() {
 
     <div class="mobile-buy-bar">
       <span ${priceBigAttrs}></span>
-      <a class="btn btn-accent" href="${mailtoPresupuesto}">${t("solicitarPresupuesto")}</a>
+      ${compraUrl ? `<a class="btn btn-accent" href="${compraUrl}" target="_blank" rel="noopener">${t("comprarBlizzcool")}</a>` : ""}
     </div>
 
     <div class="wrap section-block">
