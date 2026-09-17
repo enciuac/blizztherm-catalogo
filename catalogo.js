@@ -73,6 +73,20 @@ const STR = {
     temaOscuro: "Modo oscuro",
     drawerWhatsapp: "Escríbenos por WhatsApp",
     verGamaBlizzcool: "Ver gama de refrigeración en Blizzcool",
+    presupuestoModalTitle: "Solicitar presupuesto",
+    presupuestoModalText: "Cuéntanos qué necesitas y te contactamos con la propuesta ajustada a tu caso.",
+    presupuestoNombreLabel: "Nombre y apellidos",
+    presupuestoEmpresaLabel: "Empresa",
+    presupuestoLocalidadLabel: "Localidad",
+    presupuestoTelefonoLabel: "Teléfono de contacto",
+    presupuestoEmailLabel: "Correo electrónico",
+    presupuestoConsultaLabel: "Cuéntanos brevemente qué necesitas",
+    presupuestoConsultaPlaceholder: "Cantidad de equipos, ubicación, plazo…",
+    presupuestoEnviar: "Enviar solicitud",
+    presupuestoEnviando: "Enviando…",
+    presupuestoOkTitle: "¡Solicitud enviada!",
+    presupuestoOkText: "Hemos recibido tu solicitud y te contactaremos en breve.",
+    presupuestoErrorText: "No hemos podido enviar el formulario. Escríbenos directamente a",
     idioma: "Idioma",
     ivaFloatOn: "incl.", ivaFloatOff: "excl.",
     compartir: "Compartir / código QR", compartirTitulo: "Compartir esta página",
@@ -91,7 +105,7 @@ const STR = {
     privacidadFuentesTitle: "Tipografías de Google Fonts",
     privacidadFuentesText: "Las tipografías del sitio se cargan desde los servidores de Google Fonts, lo que implica una petición técnica a Google (incluyendo tu dirección IP) para poder mostrarlas, igual que ocurre con cualquier recurso externo. Google indica que este servicio no instala cookies de seguimiento.",
     privacidadContactoTitle: "Formularios y contacto",
-    privacidadContactoText: "Los botones de \"presupuesto\", email y WhatsApp abren tu programa de correo o WhatsApp para que nos escribas directamente; esta web no tiene un formulario propio que almacene tus datos en un servidor.",
+    privacidadContactoText: "El formulario de \"Solicitar presupuesto\" envía los datos que rellenas directamente a nuestro correo, sin guardarlos en ninguna base de datos ni compartirlos con terceros. Los demás botones de email y WhatsApp simplemente abren tu programa de correo o WhatsApp para que nos escribas.",
     privacidadDudasTitle: "¿Dudas?",
     privacidadDudasText: "Escríbenos a través de la página de contacto y lo resolvemos encantados.",
   },
@@ -146,6 +160,20 @@ const STR = {
     temaOscuro: "Dark mode",
     drawerWhatsapp: "Message us on WhatsApp",
     verGamaBlizzcool: "See our cooling range at Blizzcool",
+    presupuestoModalTitle: "Request a quote",
+    presupuestoModalText: "Tell us what you need and we'll get back to you with a proposal tailored to your case.",
+    presupuestoNombreLabel: "Full name",
+    presupuestoEmpresaLabel: "Company",
+    presupuestoLocalidadLabel: "Location",
+    presupuestoTelefonoLabel: "Contact phone",
+    presupuestoEmailLabel: "Email address",
+    presupuestoConsultaLabel: "Briefly tell us what you need",
+    presupuestoConsultaPlaceholder: "Number of units, location, timeframe…",
+    presupuestoEnviar: "Send request",
+    presupuestoEnviando: "Sending…",
+    presupuestoOkTitle: "Request sent!",
+    presupuestoOkText: "We've received your request and will contact you shortly.",
+    presupuestoErrorText: "We couldn't send the form. Write to us directly at",
     idioma: "Language",
     ivaFloatOn: "incl.", ivaFloatOff: "excl.",
     compartir: "Share / QR code", compartirTitulo: "Share this page",
@@ -164,7 +192,7 @@ const STR = {
     privacidadFuentesTitle: "Google Fonts typefaces",
     privacidadFuentesText: "The site's fonts are loaded from Google Fonts' servers, which involves a technical request to Google (including your IP address) to display them, just like any other external resource. Google states this service doesn't set tracking cookies.",
     privacidadContactoTitle: "Forms & contact",
-    privacidadContactoText: "The \"request a quote\", email and WhatsApp buttons open your email app or WhatsApp so you can write to us directly; this site has no form of its own that stores your data on a server.",
+    privacidadContactoText: "The \"Request a quote\" form sends the details you fill in directly to our email, without storing them in any database or sharing them with third parties. The other email and WhatsApp buttons simply open your email app or WhatsApp so you can write to us.",
     privacidadDudasTitle: "Questions?",
     privacidadDudasText: "Reach out via the contact page and we'll be happy to help.",
   },
@@ -559,6 +587,60 @@ function footerHTML() {
         </div>
       </div>
     </div>
+    <div id="quote-modal" class="share-modal" role="dialog" aria-modal="true" aria-labelledby="quote-title" hidden>
+      <div class="share-backdrop js-quote-close"></div>
+      <div class="share-card quote-card">
+        <button type="button" class="drawer-close js-quote-close" aria-label="${t("cerrar")}">×</button>
+        <h2 id="quote-title">${t("presupuestoModalTitle")}</h2>
+        <p>${t("presupuestoModalText")}</p>
+        <form id="quote-form" class="quote-form">
+          <input type="hidden" name="producto" id="quote-producto">
+          <input type="hidden" name="idioma" id="quote-idioma">
+          <label class="quote-hp" aria-hidden="true">
+            Website
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
+          <label class="quote-field">
+            <span>${t("presupuestoNombreLabel")}</span>
+            <input type="text" name="nombre" required>
+          </label>
+          <label class="quote-field">
+            <span>${t("presupuestoEmpresaLabel")}</span>
+            <input type="text" name="empresa">
+          </label>
+          <label class="quote-field">
+            <span>${t("presupuestoLocalidadLabel")}</span>
+            <input type="text" name="localidad">
+          </label>
+          <label class="quote-field">
+            <span>${t("presupuestoTelefonoLabel")}</span>
+            <input type="tel" name="telefono" required>
+          </label>
+          <label class="quote-field">
+            <span>${t("presupuestoEmailLabel")}</span>
+            <input type="email" name="email" required>
+          </label>
+          <label class="quote-field">
+            <span>${t("presupuestoConsultaLabel")}</span>
+            <textarea name="consulta" rows="3" placeholder="${t("presupuestoConsultaPlaceholder")}"></textarea>
+          </label>
+          <div id="quote-status" class="quote-status" role="status" aria-live="polite"></div>
+          <div class="quote-actions">
+            <button type="submit" class="btn" id="quote-submit">
+              <span class="quote-submit-label">${t("presupuestoEnviar")}</span>
+            </button>
+          </div>
+        </form>
+        <div id="quote-success" class="quote-success" hidden>
+          <div class="quote-success-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 7"/></svg>
+          </div>
+          <h3>${t("presupuestoOkTitle")}</h3>
+          <p>${t("presupuestoOkText")}</p>
+          <button type="button" class="btn js-quote-close">${t("cerrar")}</button>
+        </div>
+      </div>
+    </div>
     <div class="float-stack">
     ${ivaFloatHTML()}
     <a class="wa-float" href="${CONTACTO.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp ${CONTACTO.telefonoDisplay}" title="WhatsApp ${CONTACTO.telefonoDisplay}">
@@ -661,6 +743,7 @@ function initChrome(activeKey) {
   }
 
   initShare();
+  initQuoteModal();
 
   document.querySelectorAll(".js-lang-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -853,8 +936,8 @@ function initVariantSelector() {
   if (!options.length) return;
   const priceBigs = document.querySelectorAll(".price-big");
   const refEl = document.getElementById("variant-ref");
-  const mailtoBtn = document.getElementById("btn-presupuesto");
-  const mailtoBase = mailtoBtn ? mailtoBtn.getAttribute("href") : null;
+  const presupuestoBtns = document.querySelectorAll(".js-presupuesto-open[data-producto]");
+  const productoBase = presupuestoBtns.length ? presupuestoBtns[0].getAttribute("data-producto") : null;
 
   options.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -866,8 +949,8 @@ function initVariantSelector() {
       });
       const sage = btn.getAttribute("data-sage");
       if (refEl) refEl.textContent = sage ? `${t("sageToolsLabel")}: ${sage}` : "";
-      if (mailtoBtn && mailtoBase) {
-        mailtoBtn.setAttribute("href", `${mailtoBase}${encodeURIComponent(" — " + btn.textContent)}`);
+      if (productoBase) {
+        presupuestoBtns.forEach((b) => b.setAttribute("data-producto", `${productoBase} — ${btn.textContent}`));
       }
       actualizarPreciosEnPagina();
     });
@@ -909,7 +992,6 @@ function renderProducto() {
 
   const relacionados = PRODUCTOS.filter((x) => x.categoria === p.categoria && x.id !== p.id).slice(0, 3);
   const relacionadosHTML = relacionados.map(cardHTML).join("");
-  const mailtoPresupuesto = `mailto:${CONTACTO.email}?subject=${encodeURIComponent((lang() === "en" ? "Quote request: " : "Presupuesto ") + p.nombre)}`;
   const fichaUrl = fichaTecnicaUrl(p);
   const manuUrl = manualUrl(p);
   const compraUrl = urlCompraBlizzcool(p);
@@ -940,6 +1022,7 @@ function renderProducto() {
           </div>
           ${selectorVariantesHTML(p)}
           ${compraUrl ? `<a class="btn btn-accent" href="${compraUrl}" target="_blank" rel="noopener">${t("comprarBlizzcool")}</a>` : ""}
+          <button type="button" class="btn js-presupuesto-open" id="btn-presupuesto" data-producto="${p.nombre}">${t("solicitarPresupuesto")}</button>
           ${fichaUrl ? `<a class="btn btn-outline" href="${fichaUrl}" target="_blank" rel="noopener">${t("verFichaPdf")}</a>` : ""}
           ${manuUrl ? `<a class="btn btn-outline" href="${manuUrl}" target="_blank" rel="noopener">${t("verManualPdf")}</a>` : ""}
           <a class="btn btn-outline" href="index.html#${p.categoria}">${t("verMasEquipos")}</a>
@@ -949,7 +1032,7 @@ function renderProducto() {
 
     <div class="mobile-buy-bar">
       <span ${priceBigAttrs}></span>
-      ${compraUrl ? `<a class="btn btn-accent" href="${compraUrl}" target="_blank" rel="noopener">${t("comprarBlizzcool")}</a>` : ""}
+      ${compraUrl ? `<a class="btn btn-accent" href="${compraUrl}" target="_blank" rel="noopener">${t("comprarBlizzcool")}</a>` : `<button type="button" class="btn js-presupuesto-open" data-producto="${p.nombre}">${t("solicitarPresupuesto")}</button>`}
     </div>
 
     <div class="wrap section-block">
@@ -1137,5 +1220,86 @@ function initShare() {
     a.download = "blizztherm-qr.png";
     a.href = canvas.toDataURL("image/png");
     a.click();
+  });
+}
+
+function abrirQuoteModal(producto) {
+  const modal = document.getElementById("quote-modal");
+  if (!modal) return;
+  const form = document.getElementById("quote-form");
+  const statusEl = document.getElementById("quote-status");
+  const submitBtn = document.getElementById("quote-submit");
+  document.getElementById("quote-success").hidden = true;
+  form.hidden = false;
+  form.reset();
+  document.getElementById("quote-producto").value = producto || "";
+  document.getElementById("quote-idioma").value = lang();
+  statusEl.className = "quote-status";
+  statusEl.innerHTML = "";
+  submitBtn.disabled = false;
+  submitBtn.classList.remove("is-loading");
+  modal.hidden = false;
+  document.body.classList.add("menu-open");
+  const drawer = document.getElementById("mobile-menu");
+  const backdrop = document.getElementById("drawer-backdrop");
+  const mt = document.getElementById("menu-toggle");
+  if (drawer) drawer.classList.remove("open");
+  if (backdrop) backdrop.classList.remove("open");
+  if (mt) { mt.classList.remove("open"); mt.setAttribute("aria-expanded", "false"); }
+}
+
+function cerrarQuoteModal() {
+  const modal = document.getElementById("quote-modal");
+  if (!modal) return;
+  modal.hidden = true;
+  document.body.classList.remove("menu-open");
+}
+
+async function submitQuoteForm(form) {
+  if (form.website.value) return; // honeypot: los bots suelen rellenar campos ocultos
+  const statusEl = document.getElementById("quote-status");
+  const submitBtn = document.getElementById("quote-submit");
+  submitBtn.disabled = true;
+  submitBtn.classList.add("is-loading");
+  statusEl.className = "quote-status";
+  statusEl.innerHTML = "";
+  try {
+    const res = await fetch("enviar-presupuesto.php", { method: "POST", body: new FormData(form) });
+    const data = await res.json();
+    if (!data || !data.ok) throw new Error((data && data.error) || "send-failed");
+    form.hidden = true;
+    document.getElementById("quote-success").hidden = false;
+  } catch (err) {
+    statusEl.className = "quote-status quote-status-error";
+    statusEl.innerHTML = `${t("presupuestoErrorText")} <a class="link-inline" href="mailto:${CONTACTO.email}">${CONTACTO.email}</a>.`;
+    submitBtn.disabled = false;
+    submitBtn.classList.remove("is-loading");
+  }
+}
+
+// Delegado en document: los botones "Solicitar presupuesto" y el propio modal
+// se recrean en cada renderPage()/cambio de idioma, así que no basta con
+// enlazar listeners una vez sobre nodos que luego se sustituyen.
+function initQuoteModal() {
+  if (window.__quoteModalBound) return;
+  window.__quoteModalBound = true;
+
+  document.addEventListener("click", (e) => {
+    const openBtn = e.target.closest(".js-presupuesto-open");
+    if (openBtn) { abrirQuoteModal(openBtn.getAttribute("data-producto")); return; }
+    const closeBtn = e.target.closest(".js-quote-close");
+    if (closeBtn) cerrarQuoteModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    const modal = document.getElementById("quote-modal");
+    if (e.key === "Escape" && modal && !modal.hidden) cerrarQuoteModal();
+  });
+
+  document.addEventListener("submit", (e) => {
+    if (e.target && e.target.id === "quote-form") {
+      e.preventDefault();
+      submitQuoteForm(e.target);
+    }
   });
 }

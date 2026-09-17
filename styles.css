@@ -1335,3 +1335,82 @@ body.lightbox-open { overflow: hidden; }
 .share-actions { display: grid; gap: 8px; }
 .share-actions .btn { width: 100%; border: 1px solid transparent; cursor: pointer; font-family: inherit; }
 .share-actions .btn-outline { border-color: var(--line); }
+
+/* ---------- Modal de solicitud de presupuesto ---------- */
+
+.quote-card { max-width: 440px; max-height: 90vh; overflow-y: auto; }
+
+.quote-form { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; text-align: left; }
+.quote-form[hidden] { display: none; }
+
+.quote-field { display: flex; flex-direction: column; gap: 5px; }
+.quote-field span { font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
+
+.quote-field input,
+.quote-field textarea {
+  font-family: inherit;
+  font-size: 14.5px;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.quote-field input:focus,
+.quote-field textarea:focus { outline: none; border-color: var(--blue-brand); }
+.quote-field textarea { resize: vertical; min-height: 64px; }
+
+.quote-hp { position: absolute; left: -9999px; top: -9999px; }
+
+.quote-status { font-size: 13.5px; }
+.quote-status-ok { color: var(--green-hover); font-weight: 600; }
+.quote-status-error { color: var(--blue); }
+
+.quote-actions { margin-top: 2px; }
+.quote-actions .btn { width: 100%; border: 1px solid transparent; }
+
+#quote-submit { position: relative; }
+#quote-submit.is-loading .quote-submit-label { opacity: 0; }
+#quote-submit.is-loading { cursor: default; }
+#quote-submit::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  opacity: 0;
+}
+#quote-submit.is-loading::after { opacity: 1; animation: quote-spin 0.7s linear infinite; }
+
+@keyframes quote-spin { to { transform: rotate(360deg); } }
+
+.quote-success { text-align: center; padding: 8px 4px 4px; }
+
+.quote-success-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: quote-pop 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes quote-pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.quote-success h3 { font-family: var(--font-head); font-size: 18px; margin: 0 0 6px; color: var(--blue-brand); text-align: center; }
+.quote-success p { color: var(--ink-soft); font-size: 14px; margin: 0 0 18px; text-align: center; }
+.quote-success .btn { width: 100%; border: 1px solid transparent; cursor: pointer; font-family: inherit; }
