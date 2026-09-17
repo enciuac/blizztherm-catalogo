@@ -72,6 +72,7 @@ const STR = {
     drawerMenu: "Menú",
     temaOscuro: "Modo oscuro",
     drawerWhatsapp: "Escríbenos por WhatsApp",
+    verGamaBlizzcool: "Ver gama de refrigeración en Blizzcool",
     idioma: "Idioma",
     ivaFloatOn: "incl.", ivaFloatOff: "excl.",
     compartir: "Compartir / código QR", compartirTitulo: "Compartir esta página",
@@ -131,6 +132,7 @@ const STR = {
     drawerMenu: "Menu",
     temaOscuro: "Dark mode",
     drawerWhatsapp: "Message us on WhatsApp",
+    verGamaBlizzcool: "See our cooling range at Blizzcool",
     idioma: "Language",
     ivaFloatOn: "incl.", ivaFloatOff: "excl.",
     compartir: "Share / QR code", compartirTitulo: "Share this page",
@@ -156,6 +158,8 @@ const CONTACTO = {
   direccion: "C/ Segorbe 45, P.I. Carrús, 03206 Elche (Alicante)",
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("C/ Segorbe 45, 03206 Elche, Alicante"),
 };
+
+const BLIZZCOOL_URL = "https://www.catalogo.blizzcool.es";
 
 /* Mapeo de fichas técnicas y manuales PDF */
 const FICHAS_MAP = {
@@ -412,7 +416,7 @@ function cardHTML(p) {
       </div>
       <div class="card-foot">
         <span class="price ${precio.pendiente ? "pending" : ""} ${esRango ? "is-range" : ""}" data-pvp="${pvpBase ?? ""}">${precioTexto}<span class="iva-note">${nota}</span></span>
-        <span class="link-inline">${t("fichaTecnicaLink")}</span>
+        <span class="card-cta">${t("fichaTecnicaLink")}</span>
       </div>
     </a>`;
 }
@@ -523,6 +527,10 @@ function footerHTML() {
     ${ivaFloatHTML()}
     <a class="wa-float" href="${CONTACTO.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp ${CONTACTO.telefonoDisplay}" title="WhatsApp ${CONTACTO.telefonoDisplay}">
       <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.6.8 5.1 2.2 7.2L3.2 29l6.2-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.9S23.2 3 16 3zm0 23.5c-2.1 0-4.1-.6-5.8-1.6l-.4-.2-3.7 1.2 1.2-3.6-.3-.4A10.6 10.6 0 0 1 5.3 15.8C5.3 10 10.1 5.3 16 5.3S26.7 10 26.7 15.8 21.9 26.5 16 26.5zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2s-.8 1-1 1.2c-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.6-1.6-.9-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.4 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>
+    </a>
+    </div>
+    <a class="blizzcool-float" href="${BLIZZCOOL_URL}" target="_blank" rel="noopener" aria-label="${t("verGamaBlizzcool")}" title="${t("verGamaBlizzcool")}">
+      <img src="img/blizzcool-icon.png" alt="Blizzcool" width="30" height="30">
     </a>`;
 }
 
@@ -633,6 +641,18 @@ function initChrome(activeKey) {
       try { localStorage.setItem("bt-theme", isDark ? "light" : "dark"); } catch (e) {}
     });
   });
+
+  // El botón de Blizzcool solo aparece tras hacer scroll, para no saturar la carga inicial
+  const syncBlizzcoolFloat = () => {
+    document.querySelectorAll(".blizzcool-float").forEach((el) => {
+      el.classList.toggle("is-visible", window.scrollY > 240);
+    });
+  };
+  syncBlizzcoolFloat();
+  if (!window.__blizzcoolScrollBound) {
+    window.__blizzcoolScrollBound = true;
+    window.addEventListener("scroll", syncBlizzcoolFloat, { passive: true });
+  }
 }
 
 /* ---------- Página índice ---------- */
