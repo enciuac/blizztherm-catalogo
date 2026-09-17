@@ -1092,6 +1092,50 @@ body.lightbox-open { overflow: hidden; }
 .mobile-buy-bar .iva-note-big { display: block; margin: 0; font-size: 11px; }
 .mobile-buy-bar .btn { flex-shrink: 0; padding: 12px 18px; }
 
+/* ---------- Banner de cookies analíticas ---------- */
+
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 55;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  pointer-events: none;
+}
+
+.cookie-banner[hidden] { display: none; }
+
+.cookie-banner-card {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 560px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--green-brand);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 32px rgba(15, 28, 46, 0.2);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cookie-banner-text strong { display: block; font-family: var(--font-head); font-size: 15.5px; margin-bottom: 4px; color: var(--blue-brand); }
+.cookie-banner-text p { margin: 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+
+.cookie-banner-actions { display: flex; gap: 10px; }
+.cookie-banner-actions .btn { flex: 1; padding: 10px 16px; font-size: 14px; cursor: pointer; border: 1px solid transparent; white-space: nowrap; }
+.cookie-banner-actions .btn-outline { border-color: var(--line); }
+
+.cookies-estado { font-size: 13px; color: var(--ink-soft); font-style: italic; }
+.cookies-gestion-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.cookies-gestion-actions .btn { cursor: pointer; border: 1px solid transparent; }
+.cookies-gestion-actions .btn-outline { border-color: var(--line); }
+
 /* =========================================================
    CONTACTO
    ========================================================= */
@@ -1221,6 +1265,9 @@ body.lightbox-open { overflow: hidden; }
   .product-media { position: sticky; top: calc(var(--header-h) + 20px); }
   .mobile-buy-bar { display: none; }
   .float-stack, body.has-buy-bar .float-stack { right: 24px; bottom: 24px; }
+  .cookie-banner-card { max-width: 720px; flex-direction: row; align-items: center; gap: 20px; }
+  .cookie-banner-actions { flex-shrink: 0; }
+  .cookie-banner-actions .btn { flex: none; }
   .specs-table td { padding: 12px 16px; }
   .section-block h2 { font-size: 20px; margin-top: 32px; }
 }

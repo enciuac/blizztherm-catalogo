@@ -19,6 +19,38 @@ function setLang(l) {
   localStorage.setItem(LANG_KEY, l);
 }
 
+/* ---------- Cookies analíticas (Google Analytics 4) ---------- */
+/* GA4 solo se carga si el usuario acepta el aviso de cookies. Sin
+   aceptación explícita no se solicita ningún script de Google ni se
+   instala ninguna cookie. */
+
+const GA4_ID = "G-VFEXMYBZSF";
+const COOKIES_KEY = "blizztherm_cookies";
+
+function cookiesConsent() {
+  try { return localStorage.getItem(COOKIES_KEY); } catch (e) { return null; }
+}
+function setCookiesConsent(valor) {
+  try { localStorage.setItem(COOKIES_KEY, valor); } catch (e) {}
+}
+
+function cargarGA4() {
+  if (window.__ga4Cargado) return;
+  window.__ga4Cargado = true;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag() { window.dataLayer.push(arguments); };
+  window.gtag("js", new Date());
+  window.gtag("config", GA4_ID);
+  const s = document.createElement("script");
+  s.async = true;
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
+  document.head.appendChild(s);
+}
+
+function aplicarCookiesConsent() {
+  if (cookiesConsent() === "aceptado") cargarGA4();
+}
+
 /* ---------- Textos de interfaz ---------- */
 
 const STR = {
@@ -97,17 +129,29 @@ const STR = {
     fotoAnterior: "Foto anterior", fotoSiguiente: "Foto siguiente",
     footerPrivacidad: "Aviso de cookies y privacidad",
     privacidadTitle: "Aviso de cookies y privacidad",
-    privacidadSubtitle: "Este catálogo no usa cookies de seguimiento ni recoge datos personales. Aquí explicamos exactamente qué guarda tu navegador y por qué.",
+    privacidadSubtitle: "Este catálogo no recoge datos personales por su cuenta. Aquí explicamos exactamente qué guarda tu navegador, cuándo se activa Google Analytics y por qué.",
     privacidadAlmacenTitle: "Qué guarda tu navegador",
-    privacidadAlmacenText: "Esta web no utiliza cookies. Usa dos valores técnicos guardados en tu propio navegador (localStorage y sessionStorage), nunca enviados a ningún servidor: tu preferencia de modo claro/oscuro, y si quieres ver los precios con o sin IVA. Ambos se activan solo cuando tú interactúas con esos controles y desaparecen si borras los datos de tu navegador.",
-    privacidadSeguimientoTitle: "Sin seguimiento ni analítica",
-    privacidadSeguimientoText: "No usamos Google Analytics, píxeles publicitarios ni ningún sistema de seguimiento de terceros. No sabemos quién visita esta web ni qué páginas concretas mira cada persona.",
+    privacidadAlmacenText: "Además de las cookies analíticas descritas abajo, usamos dos valores técnicos guardados en tu propio navegador (localStorage y sessionStorage), nunca enviados a ningún servidor: tu preferencia de modo claro/oscuro, y si quieres ver los precios con o sin IVA. Ambos se activan solo cuando tú interactúas con esos controles y desaparecen si borras los datos de tu navegador.",
+    privacidadSeguimientoTitle: "Cookies analíticas (Google Analytics)",
+    privacidadSeguimientoText: "Con tu consentimiento, usamos Google Analytics para saber qué páginas se visitan y qué botones se usan, y así mejorar el catálogo. El script de Google solo se carga y solo se instala alguna cookie si aceptas el aviso de cookies; si lo rechazas, no se activa nada. No usamos píxeles publicitarios ni vendemos ni compartimos tus datos con terceros.",
     privacidadFuentesTitle: "Tipografías de Google Fonts",
     privacidadFuentesText: "Las tipografías del sitio se cargan desde los servidores de Google Fonts, lo que implica una petición técnica a Google (incluyendo tu dirección IP) para poder mostrarlas, igual que ocurre con cualquier recurso externo. Google indica que este servicio no instala cookies de seguimiento.",
     privacidadContactoTitle: "Formularios y contacto",
     privacidadContactoText: "El formulario de \"Solicitar presupuesto\" envía los datos que rellenas directamente a nuestro correo, sin guardarlos en ninguna base de datos ni compartirlos con terceros. Los demás botones de email y WhatsApp simplemente abren tu programa de correo o WhatsApp para que nos escribas.",
+    privacidadGestionTitle: "Tu preferencia de cookies analíticas",
+    privacidadGestionText: "Puedes cambiar de opinión cuando quieras:",
+    privacidadGestionAceptar: "Aceptar cookies analíticas",
+    privacidadGestionRechazar: "Rechazar cookies analíticas",
+    privacidadEstadoAceptado: "Analítica activada actualmente en tu navegador.",
+    privacidadEstadoRechazado: "Analítica desactivada actualmente en tu navegador.",
+    privacidadEstadoNinguno: "Aún no has elegido; de momento no se activa nada.",
     privacidadDudasTitle: "¿Dudas?",
     privacidadDudasText: "Escríbenos a través de la página de contacto y lo resolvemos encantados.",
+    cookiesTitulo: "Usamos cookies analíticas",
+    cookiesTexto: "Usamos Google Analytics para saber qué páginas y equipos interesan más, y así mejorar el catálogo. Solo se activa si lo aceptas.",
+    cookiesMasInfo: "Más información",
+    cookiesAceptar: "Aceptar",
+    cookiesRechazar: "Rechazar",
   },
   en: {
     navInicio: "Home", navCatalogo: "Catalog", navContacto: "Contact",
@@ -184,17 +228,29 @@ const STR = {
     fotoAnterior: "Previous photo", fotoSiguiente: "Next photo",
     footerPrivacidad: "Cookies & privacy notice",
     privacidadTitle: "Cookies & privacy notice",
-    privacidadSubtitle: "This catalog doesn't use tracking cookies or collect personal data. Here's exactly what your browser stores and why.",
+    privacidadSubtitle: "This catalog doesn't collect personal data on its own. Here's exactly what your browser stores, when Google Analytics kicks in, and why.",
     privacidadAlmacenTitle: "What your browser stores",
-    privacidadAlmacenText: "This site doesn't use cookies. It uses two technical values stored in your own browser (localStorage and sessionStorage), never sent to any server: your light/dark mode preference, and whether you want to see prices with or without VAT. Both are only set when you interact with those controls, and they disappear if you clear your browser data.",
-    privacidadSeguimientoTitle: "No tracking or analytics",
-    privacidadSeguimientoText: "We don't use Google Analytics, advertising pixels or any third-party tracking. We don't know who visits this site or which specific pages anyone looks at.",
+    privacidadAlmacenText: "Besides the analytics cookies described below, we use two technical values stored in your own browser (localStorage and sessionStorage), never sent to any server: your light/dark mode preference, and whether you want to see prices with or without VAT. Both are only set when you interact with those controls, and they disappear if you clear your browser data.",
+    privacidadSeguimientoTitle: "Analytics cookies (Google Analytics)",
+    privacidadSeguimientoText: "With your consent, we use Google Analytics to see which pages get visited and which buttons get used, so we can improve the catalog. Google's script only loads, and only sets any cookie, if you accept the cookie notice; if you decline, nothing gets activated. We don't use advertising pixels or sell or share your data with third parties.",
     privacidadFuentesTitle: "Google Fonts typefaces",
     privacidadFuentesText: "The site's fonts are loaded from Google Fonts' servers, which involves a technical request to Google (including your IP address) to display them, just like any other external resource. Google states this service doesn't set tracking cookies.",
     privacidadContactoTitle: "Forms & contact",
     privacidadContactoText: "The \"Request a quote\" form sends the details you fill in directly to our email, without storing them in any database or sharing them with third parties. The other email and WhatsApp buttons simply open your email app or WhatsApp so you can write to us.",
+    privacidadGestionTitle: "Your analytics cookies preference",
+    privacidadGestionText: "You can change your mind at any time:",
+    privacidadGestionAceptar: "Accept analytics cookies",
+    privacidadGestionRechazar: "Decline analytics cookies",
+    privacidadEstadoAceptado: "Analytics currently enabled in your browser.",
+    privacidadEstadoRechazado: "Analytics currently disabled in your browser.",
+    privacidadEstadoNinguno: "You haven't chosen yet; nothing is active for now.",
     privacidadDudasTitle: "Questions?",
     privacidadDudasText: "Reach out via the contact page and we'll be happy to help.",
+    cookiesTitulo: "We use analytics cookies",
+    cookiesTexto: "We use Google Analytics to see which pages and products get the most interest, so we can improve the catalog. It only runs if you accept.",
+    cookiesMasInfo: "Learn more",
+    cookiesAceptar: "Accept",
+    cookiesRechazar: "Decline",
   },
 };
 function t(key) {
@@ -649,6 +705,18 @@ function footerHTML() {
     <a class="wa-float" href="${CONTACTO.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp ${CONTACTO.telefonoDisplay}" title="WhatsApp ${CONTACTO.telefonoDisplay}">
       <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.6.8 5.1 2.2 7.2L3.2 29l6.2-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.9S23.2 3 16 3zm0 23.5c-2.1 0-4.1-.6-5.8-1.6l-.4-.2-3.7 1.2 1.2-3.6-.3-.4A10.6 10.6 0 0 1 5.3 15.8C5.3 10 10.1 5.3 16 5.3S26.7 10 26.7 15.8 21.9 26.5 16 26.5zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2s-.8 1-1 1.2c-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.6-1.6-.9-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.4 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>
     </a>
+    </div>
+    <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" hidden>
+      <div class="cookie-banner-card">
+        <div class="cookie-banner-text">
+          <strong>${t("cookiesTitulo")}</strong>
+          <p>${t("cookiesTexto")} <a class="link-inline" href="privacidad.html">${t("cookiesMasInfo")}</a></p>
+        </div>
+        <div class="cookie-banner-actions">
+          <button type="button" class="btn btn-outline js-cookies-rechazar">${t("cookiesRechazar")}</button>
+          <button type="button" class="btn js-cookies-aceptar">${t("cookiesAceptar")}</button>
+        </div>
+      </div>
     </div>`;
 }
 
@@ -744,6 +812,7 @@ function initChrome(activeKey) {
 
   initShare();
   initQuoteModal();
+  initCookieBanner();
 
   document.querySelectorAll(".js-lang-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -1125,9 +1194,20 @@ function renderPrivacidad() {
       <p>${t("privacidadContactoText")}</p>
     </div>
     <div class="wrap section-block">
+      <h2>${t("privacidadGestionTitle")}</h2>
+      <p>${t("privacidadGestionText")}</p>
+      <p id="privacidad-cookies-estado" class="cookies-estado"></p>
+      <div class="cookies-gestion-actions">
+        <button type="button" class="btn btn-outline js-cookies-rechazar">${t("privacidadGestionRechazar")}</button>
+        <button type="button" class="btn js-cookies-aceptar">${t("privacidadGestionAceptar")}</button>
+      </div>
+    </div>
+    <div class="wrap section-block">
       <h2>${t("privacidadDudasTitle")}</h2>
       <p>${t("privacidadDudasText")} <a class="link-inline" href="contacto.html">${t("contactoTitle")}</a>.</p>
     </div>`;
+
+  actualizarEstadoCookiesPrivacidad();
 }
 
 
@@ -1289,5 +1369,38 @@ function initQuoteModal() {
       e.preventDefault();
       submitQuoteForm(e.target);
     }
+  });
+}
+
+/* ---------- Banner de cookies analíticas ---------- */
+
+function actualizarEstadoCookiesPrivacidad() {
+  const el = document.getElementById("privacidad-cookies-estado");
+  if (!el) return;
+  const c = cookiesConsent();
+  el.textContent = c === "aceptado" ? t("privacidadEstadoAceptado")
+    : c === "rechazado" ? t("privacidadEstadoRechazado")
+    : t("privacidadEstadoNinguno");
+}
+
+function initCookieBanner() {
+  aplicarCookiesConsent();
+
+  const banner = document.getElementById("cookie-banner");
+  if (banner) banner.hidden = cookiesConsent() !== null;
+  actualizarEstadoCookiesPrivacidad();
+
+  if (window.__cookieBannerBound) return;
+  window.__cookieBannerBound = true;
+
+  document.addEventListener("click", (e) => {
+    const aceptar = e.target.closest(".js-cookies-aceptar");
+    const rechazar = e.target.closest(".js-cookies-rechazar");
+    if (!aceptar && !rechazar) return;
+    setCookiesConsent(aceptar ? "aceptado" : "rechazado");
+    if (aceptar) cargarGA4();
+    const b = document.getElementById("cookie-banner");
+    if (b) b.hidden = true;
+    actualizarEstadoCookiesPrivacidad();
   });
 }
